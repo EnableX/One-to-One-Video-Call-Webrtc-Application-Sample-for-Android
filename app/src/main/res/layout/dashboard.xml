@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/homescreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eae7e7">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/logindetailBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="16dp"
+            android:background="@android:color/white">
+
+            <ImageView
+                android:id="@+id/lineImageView"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#EA3F3C"/>
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/lineImageView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/logofront"/>
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/logo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:text="Welcome!"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleTextView"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/background"
+                android:hint="Enter Name"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#757575"
+                android:textColorHint="#757575"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/roomId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/background"
+                android:hint="Enter RoomId"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#757575"
+                android:textColorHint="#757575"
+                android:textSize="14sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/roomId"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/createRoom"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/mybutton"
+                    android:padding="15dp"
+                    android:text="Create Room"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"/>
+
+                <Button
+                    android:id="@+id/joinRoom"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/mybutton"
+                    android:padding="15dp"
+                    android:text="Join"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
