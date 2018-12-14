@@ -34,7 +34,7 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 #### 1.1.4 Configure Android Client 
 
 * Open the App
-* Go to VCXConstant.swift and change the following:
+* Go to WebConstants and change the following:
 ``` 
  String userName = "USERNAME"  /* HTTP Basic Auth Username of App Server */
  String password = "PASSWORD"  /* HTTP Basic Auth Password of App Server */
