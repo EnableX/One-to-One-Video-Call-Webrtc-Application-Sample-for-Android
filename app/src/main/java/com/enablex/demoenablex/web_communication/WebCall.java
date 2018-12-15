@@ -172,7 +172,7 @@ public class WebCall extends AsyncTask<Void, Void, String>
             httpURLConnection.setDoInput(true);
             httpURLConnection.setDoOutput(true);
             if (isAuthenticated){
-                String text = "demo:enablex";
+                String text = WebConstants.userName+":"+WebConstants.password;
                 byte[] data = text.getBytes("UTF-8");
                 String base64 = Base64.encodeToString(data, Base64.DEFAULT).replace("\n", "");
                 httpURLConnection.setRequestProperty("Authorization", "Basic " + base64);

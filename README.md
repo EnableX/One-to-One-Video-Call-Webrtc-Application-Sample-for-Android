@@ -1,8 +1,8 @@
 # 1-to-1 RTC: A Sample Android App with EnableX Android Toolkit
 
-This is a Sample Android App demonstrates the use of EnableX (https://www.enablex.io) platform Server APIs and Android Toolkit.  It allows developers to ramp up on app development by hosting on their own devices. 
+This is a Sample Android App demonstrates the use of EnableX (https://www.enablex.io) platform Server APIs and Android Toolkit to build 1-to-1 RTC (Real Time Communication) Application.  It allows developers to ramp up on app development by hosting on their own devices. 
 
-This App creates a virtual Room on the fly  hosted on the Enablex platform using REST calls and uses the Room credentials (i.e. Room Id) to connect to the virtual Room as a mobile client.  The same Room credentials can be shared with others to join the same virtual Room to carry out a RTC (Real Time Communication) session. 
+This App creates a virtual Room on the fly  hosted on the Enablex platform using REST calls and uses the Room credentials (i.e. Room Id) to connect to the virtual Room as a mobile client.  The same Room credentials can be shared with others to join the same virtual Room to carry out a RTC session. 
 
 > EnableX Developer Center: https://developer.enablex.io/
 
@@ -111,12 +111,12 @@ More on Player: https://developer.enablex.io/api/client-api/android-toolkit/enxp
 
 ### 4.4 Handle Server Events
 
-EnableX Platform will emit back many events related to the ongoing RTC Session as and when they occur implicitly or explicitly as a result of user interaction. We use delegates of handle all such events.
+EnableX Platform will emit back many events related to the ongoing RTC Session as and when they occur implicitly or explicitly as a result of user interaction. We use Call Back Methods to handle all such events.
 
 ``` 
-/* Example of Delegates */
+/* Example of Call Back Methods */
 
-/* Delegate: onRoomConnected 
+/* Call Back Method: onRoomConnected 
 Handles successful connection to the Virtual Room */ 
 
 void onRoomConnected(EnxRoom enxRoom, JSONObject roomMetaData){
@@ -124,7 +124,7 @@ void onRoomConnected(EnxRoom enxRoom, JSONObject roomMetaData){
 }
 
 
-/* Delegate: onRoomError
+/* Call Back Method: onRoomError
  Error handler when room connection fails */
  
 void onRoomError(JSONObject jsonObject){
@@ -132,7 +132,7 @@ void onRoomError(JSONObject jsonObject){
 } 
 
  
-/* Delegate: onStreamAdded
+/* Call Back Method: onStreamAdded
  To handle any new stream added to the Virtual Room */
  
 void onStreamAdded(EnxStream stream){
@@ -140,7 +140,7 @@ void onStreamAdded(EnxStream stream){
 } 
 
 
-/* Delegate: onActiveTalkerList
+/* Call Back Method: onActiveTalkerList
  To handle any time Active Talker list is updated */
   
 void onActiveTalkerList(JSONObject jsonObject){
