@@ -106,7 +106,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         switch (item.getItemId())
         {
             case R.id.action_share:
-                if (!name.getText().toString().equalsIgnoreCase("") && !roomId.getText().toString().equalsIgnoreCase(""))
+                if (!roomId.getText().toString().equalsIgnoreCase(""))
                 {
                     String shareBody = "Hi,\n" + name.getText().toString() + " has invited you to join room with Room Id " + roomId.getText().toString();
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
