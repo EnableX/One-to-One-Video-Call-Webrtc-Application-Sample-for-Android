@@ -41,5 +41,5 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation(name: 'EnxRtcAndroid-release_1.2', ext: 'aar')
+    implementation(name: 'EnxRtcAndroid-release_1.3.1', ext: 'aar')
 }

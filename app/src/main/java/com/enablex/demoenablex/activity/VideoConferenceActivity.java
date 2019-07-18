@@ -264,6 +264,31 @@ public class VideoConferenceActivity extends AppCompatActivity
     }
 
     @Override
+    public void onNotifyDeviceUpdate(String s) {
+
+    }
+
+    @Override
+    public void onCanvasStarted(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onCanvasStopped(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onDeviceAdded(String s) {
+
+    }
+
+    @Override
+    public void onDeviceRemoved(String s) {
+
+    }
+
+    @Override
     public void onAudioEvent(JSONObject jsonObject) {
         try {
             if (jsonObject.optString("msg").equalsIgnoreCase("success")) {
@@ -445,21 +470,6 @@ public class VideoConferenceActivity extends AppCompatActivity
 //            super.onBackPressed();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (enxRooms != null) {
-            enxRooms.onPause();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (enxRooms != null) {
-            enxRooms.onResume();
-        }
-    }
 
     @Override
     protected void onDestroy() {

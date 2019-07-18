@@ -3,7 +3,7 @@ package com.enablex.demoenablex.web_communication;
 public class WebConstants
 {
 
-    public static final String kBaseURL = "Your App Server URL";
+    public static final String kBaseURL = "https://vcm-mt.vcloudx.com/";
     public static final String userName = "demo";
     public static final String password = "enablex";
 
