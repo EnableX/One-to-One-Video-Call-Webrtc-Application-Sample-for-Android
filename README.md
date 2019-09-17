@@ -20,12 +20,12 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 
 #### 1.1.2 Sample Android Client 
 
-* Clone or download this Repository [https://github.com/EnableX/Sample-Android-App-1to1-RTC.git] 
+* Clone or download this Repository [https://github.com/EnableX/One-to-One-Video-Call-Webrtc-Application-Sample-for-Android.git] 
 
 
 #### 1.1.3 Sample App Server 
 
-* Clone or download this Repository [https://github.com/EnableX/Sample-Web-App-1to1-RTC.git] & follow the steps further 
+* Clone or download this Repository [https://github.com/EnableX/One-to-One-Video-Chat-Sample-Web-Application] & follow the steps further 
 * You need to use App ID and App Key to run this Service. 
 * Your Android Client End Point needs to connect to this Service to create Virtual Room.
 * Follow README file of this Repository to setup the Service.
