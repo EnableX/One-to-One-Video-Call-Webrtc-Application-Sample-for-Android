@@ -1,6 +1,7 @@
 package com.enablex.demoenablex.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import enx_rtc_android.Controller.EnxPlayerView;
+import enx_rtc_android.Controller.EnxReconnectObserver;
 import enx_rtc_android.Controller.EnxRoom;
 import enx_rtc_android.Controller.EnxRoomObserver;
 import enx_rtc_android.Controller.EnxRtc;
@@ -39,7 +41,7 @@ import enx_rtc_android.Controller.EnxStreamObserver;
 
 
 public class VideoConferenceActivity extends AppCompatActivity
-        implements EnxRoomObserver, EnxStreamObserver, View.OnClickListener {
+        implements EnxRoomObserver, EnxStreamObserver, View.OnClickListener, EnxReconnectObserver {
     EnxRtc enxRtc;
     String token;
     String name;
@@ -56,6 +58,7 @@ public class VideoConferenceActivity extends AppCompatActivity
     Gson gson;
     EnxStream localStream;
     EnxPlayerView enxPlayerViewRemote;
+    ProgressDialog progressDialog;
     int PERMISSION_ALL = 1;
     String[] PERMISSIONS = {
             android.Manifest.permission.CAMERA,
@@ -80,38 +83,45 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onRoomConnected(EnxRoom enxRoom, JSONObject jsonObject) {
+        //received when user connected with Enablex room
         enxRooms = enxRoom;
-        if (enxRoom != null) {
-            enxRoom.publish(localStream);
+        if (enxRooms != null) {
+            enxRooms.publish(localStream);
+            enxRooms.setReconnectObserver(this);
         }
     }
 
     @Override
     public void onRoomError(JSONObject jsonObject) {
+        //received when any error occurred while connecting to the Enablex room
         Toast.makeText(VideoConferenceActivity.this, jsonObject.optString("msg"), Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     public void onUserConnected(JSONObject jsonObject) {
+        // received when a new remote participant joins the call
     }
 
     @Override
     public void onUserDisConnected(JSONObject jsonObject) {
+        // received when a  remote participant left the call
         roomDisconnect();
     }
 
     @Override
     public void onPublishedStream(EnxStream enxStream) {
+    //received when audio video published successfully to the other remote users
     }
 
     @Override
     public void onUnPublishedStream(EnxStream enxStream) {
-
+    //received when audio video unpublished successfully to the other remote users
     }
 
     @Override
     public void onStreamAdded(EnxStream enxStream) {
+    //received when a new stream added
         if (enxStream != null) {
             enxRooms.subscribe(enxStream);
         }
@@ -119,20 +129,23 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onSubscribedStream(EnxStream enxStream) {
+     //received when a remote stream subscribed successfully
     }
 
     @Override
     public void onUnSubscribedStream(EnxStream enxStream) {
-
+    //received when a remote stream unsubscribed successfully
     }
 
     @Override
     public void onRoomDisConnected(JSONObject jsonObject) {
+        //received when Enablex room successfully disconnected
         this.finish();
     }
 
     @Override
     public void onActiveTalkerList(JSONObject jsonObject) {
+        //received when Active talker update happens
         try {
             Map<String, EnxStream> map = enxRooms.getRemoteStreams();
             JSONArray jsonArray = jsonObject.getJSONArray("activeList");
@@ -157,35 +170,43 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onEventError(JSONObject jsonObject) {
+        //received when any error occurred for any room event
         Toast.makeText(VideoConferenceActivity.this, jsonObject.optString("msg"), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onEventInfo(JSONObject jsonObject) {
+        // received for different events update
     }
 
     @Override
     public void onNotifyDeviceUpdate(String s) {
+        // received when when new media device changed
     }
 
     @Override
     public void onAcknowledgedSendData(JSONObject jsonObject) {
+        // received your chat data successfully sent to the other end
     }
 
     @Override
     public void onReceivedChatDataAtRoom(JSONObject jsonObject) {
+        // received when chat data received at room
     }
 
     @Override
     public void onSwitchedUserRole(JSONObject jsonObject) {
+        // received when user switch their role (from moderator  to participant)
     }
 
     @Override
     public void onUserRoleChanged(JSONObject jsonObject) {
+        // received when user role changed successfully
     }
 
     @Override
     public void onAudioEvent(JSONObject jsonObject) {
+        //received when audio mute/unmute happens
         try {
             String message = jsonObject.getString("msg");
             if (message.equalsIgnoreCase("Audio On")) {
@@ -202,6 +223,7 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onVideoEvent(JSONObject jsonObject) {
+        //received when video mute/unmute happens
         try {
             String message = jsonObject.getString("msg");
             if (message.equalsIgnoreCase("Video On")) {
@@ -218,27 +240,27 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onReceivedData(JSONObject jsonObject) {
-
+    //received when chat data received at room level
     }
 
     @Override
     public void onRemoteStreamAudioMute(JSONObject jsonObject) {
-
+    //received when any remote stream mute audio
     }
 
     @Override
     public void onRemoteStreamAudioUnMute(JSONObject jsonObject) {
-
+    //received when any remote stream unmute audio
     }
 
     @Override
     public void onRemoteStreamVideoMute(JSONObject jsonObject) {
-
+    //received when any remote stream mute video
     }
 
     @Override
     public void onRemoteStreamVideoUnMute(JSONObject jsonObject) {
-
+    //received when any remote stream unmute audio
     }
 
     @Override
@@ -314,7 +336,7 @@ public class VideoConferenceActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         if (enxRooms != null) {
-            enxRooms.stopVideoTracksOnApplicationBackground(true,true);
+            enxRooms.stopVideoTracksOnApplicationBackground(true, true);
         }
     }
 
@@ -322,7 +344,7 @@ public class VideoConferenceActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         if (enxRooms != null) {
-            enxRooms.startVideoTracksOnApplicationForeground(true,true);
+            enxRooms.startVideoTracksOnApplicationForeground(true, true);
         }
     }
 
@@ -352,10 +374,11 @@ public class VideoConferenceActivity extends AppCompatActivity
         gson = new Gson();
         getSupportActionBar().setTitle("QuickApp");
         enxRtc = new EnxRtc(this, this, this);
-        localStream = enxRtc.joinRoom(token, getLocalStreamJsonObject(),getReconnectInfo(),null);
+        localStream = enxRtc.joinRoom(token, getLocalStreamJsonObject(), getReconnectInfo(), null);
         enxPlayerView = new EnxPlayerView(this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
         localStream.attachRenderer(enxPlayerView);
         moderator.addView(enxPlayerView);
+        progressDialog = new ProgressDialog(this);
     }
 
     private void setClickListener() {
@@ -464,7 +487,7 @@ public class VideoConferenceActivity extends AppCompatActivity
                 for (int x = 0; x < childCount; x++) {
                     RadioButton btn = (RadioButton) group.getChildAt(x);
                     if (btn.getId() == checkedId) {
-                        enxRooms.setAudioDevice(btn.getText().toString());
+                        enxRooms.switchMediaDevice(btn.getText().toString());
                         dialog.dismiss();
                     }
                 }
@@ -488,4 +511,27 @@ public class VideoConferenceActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onReconnect(String message) {
+     // received when room tries to reconnect due to low bandwidth or any connection interruption
+        try {
+            if (message.equalsIgnoreCase("Reconnecting")) {
+                progressDialog.setMessage("Wait, Reconnecting");
+                progressDialog.show();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onUserReconnectSuccess(EnxRoom enxRoom, JSONObject jsonObject) {
+        // received when reconnect successfully completed
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        Toast.makeText(this, "Reconnect Success", Toast.LENGTH_SHORT).show();
+    }
 }
