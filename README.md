@@ -71,7 +71,7 @@ https://developer.enablex.io/latest/server-api/
 Android App to use Android Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications.  
 
 * Documentation: https://developer.enablex.io/latest/client-api/android-toolkit/
-* Download: https://developer.enablex.io/latest/client-api/android-toolkit/
+* Download: https://developer.enablex.io/resources/downloads/#android-toolkit
 
 
 ## 4 Application Walk-through
