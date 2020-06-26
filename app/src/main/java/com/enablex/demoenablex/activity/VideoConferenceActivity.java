@@ -210,6 +210,26 @@ public class VideoConferenceActivity extends AppCompatActivity
     }
 
     @Override
+    public void onConferencessExtended(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onConferenceRemainingDuration(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckDropUser(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onAckDestroy(JSONObject jsonObject) {
+
+    }
+
+    @Override
     public void onAudioEvent(JSONObject jsonObject) {
         //received when audio mute/unmute happens
         try {

@@ -23,12 +23,15 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 * Clone or download this Repository [https://github.com/EnableX/One-to-One-Video-Call-Webrtc-Application-Sample-for-Android.git] 
 
 
-#### 1.1.3 Sample App Server 
+#### 1.1.3 Test Application Server
 
-* Clone or download this Repository [https://github.com/EnableX/One-to-One-Video-Chat-Sample-Web-Application.git ] & follow the steps further 
-* You need to use App ID and App Key to run this Service. 
-* Your Android Client End Point needs to connect to this Service to create Virtual Room.
-* Follow README file of this Repository to setup the Service.
+You need to setup an Application Server to provision Web Service API for your Android Application to communicate enabling Video Session. 
+
+To help you to try our Android Application quickly, without having to setup Applciation Server, this Application is shipped pre-configured to work in a "try" mode with EnableX hosted Application Server i.e. https://demo.enablex.io. 
+
+Our Application Server restricts a single Session Duation to 10 minutes, and allows 1 moderator and note more than 3 Participant in a Session.
+
+Once you tried EnableX iOS Sample Application, you may need to setup your own  Application Server and verify your Application to work with your Application Server.  More on this, read Point 2 later in the Document.
 
 
 #### 1.1.4 Configure Android Client 
@@ -36,12 +39,21 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 * Open the App
 * Go to WebConstants and change the following:
 ``` 
- String userName = "USERNAME"  /* HTTP Basic Auth Username of App Server */
- String password = "PASSWORD"  /* HTTP Basic Auth Password of App Server */
- String kBaseURL = "FQDN"      /* FQDN of of App Server */
- ```
+ /* To try the App with Enablex Hosted Service you need to set the kTry = true When you setup your own Application Service, set kTry = false */
+     
+     public  static  final  boolean kTry = true;
+     
+ /* Your Web Service Host URL. Keet the defined host when kTry = true */
  
- Note: The distributable comes with demo username and password for the Service. 
+     String kBaseURL = "https://demo.enablex.io/"
+     
+ /* Your Application Credential required to try with EnableX Hosted Service
+     When you setup your own Application Service, remove these */
+     
+     String kAppId = ""  
+     String kAppkey = ""  
+ ```
+
 
 ### 1.2 Test
 
@@ -49,18 +61,21 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 
 * Open the App in your Device. You get a form to enter Credentials i.e. Name & Room Id.
 * You need to create a Room by clicking the "Create Room" button.
-* Once the Room Id is created, you can use it and share with others to connect to the Virtual Room to carry out a RTC Session.
-  
-## 2 Server API
+* Once the Room Id is created, you can use it and share with others to connect to the Virtual Room to carry out a RTC Session either as a Moderator or a Participant (Choose applicable Role in the Form).
 
-EnableX Server API is a Rest API service meant to be called from Partners' Application Server to provision video enabled 
-meeting rooms. API Access is given to each Application through the assigned App ID and App Key. So, the App ID and App Key 
-are to be used as Username and Password respectively to pass as HTTP Basic Authentication header to access Server API.
- 
-For this application, the following Server API calls are used: 
-* https://developer.enablex.io/latest/server-api/rooms-route/#get-rooms - To get list of Rooms
-* https://developer.enablex.io/latest/server-api/rooms-route/#get-room-info - To get information of the given Room
-* https://developer.enablex.io/latest/server-api/rooms-route/#create-token - To create Token for the given Room
+Note: Only one user with Moderator Role allowed to connect to a Virtual Room while trying with EnableX Hosted Service. Your Own Application Server may allow upto 5 Moderators.
+  
+## 2 Setup Your Own Application Server
+
+You may need to setup your own Application Server after you tried the Sample Application with EnableX hosted Server. We have differnt variant of Appliciation Server Sample Code, pick one in your preferred language and follow instructions given in respective README.md file.
+
+* NodeJS: [https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git]
+* PHP: [https://github.com/EnableX/Group-Video-Call-Conferencing-Sample-Application-in-PHP]
+
+Note the following:
+* You need to use App ID and App Key to run this Service.
+* Your Android Client End Point needs to connect to this Service to create Virtual Room and Create Token to join session.
+* Application Server is created using EnableX Server API, a Rest API Service helps in provisioning, session access and pos-session reporting.  
 
 To know more about Server API, go to:
 https://developer.enablex.io/latest/server-api/
@@ -68,85 +83,15 @@ https://developer.enablex.io/latest/server-api/
 
 ## 3 Android Toolkit
 
-Android App to use Android Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications.  
+This Sample Applcation uses EnableX Android Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications. You might need to update your Application with latest version of EnableX Android Toolkit time as and when a new release is avaialble.   
 
-* Documentation: https://developer.enablex.io/latest/client-api/android-toolkit/
-* Download: https://developer.enablex.io/resources/downloads/#android-toolkit
+* Documentation: https://developer.enablex.io/latest/client-api/ios-toolkit/
+* Download Toolkit: https://developer.enablex.io/resources/downloads/#ios-toolkit
 
+## 4 Demo
 
-## 4 Application Walk-through
+EnableX provides hosted Vemo Application of different use-case for you to try out.
 
-### 4.1 Create Token
-
-We create a Token for a Room Id to get connected to EnableX Platform to connect to the Virtual Room to carry out a RTC Session.
-
-To create Token, we make use of Server API. Refer following documentation:
-https://developer.enablex.io/latest/server-api/rooms-route/#create-token
-
-
-### 4.2 Connect to a Room, Initiate & Publish Stream
-
-We use the Token to get connected to the Virtual Room. Once connected, we intiate local stream and publish into the room. Refer following documentation for this process:
-https://developer.enablex.io/latest/client-api/android-toolkit/enxrtc/
-
-
-
-### 4.3 Play Stream
-
-We play the Stream into EnxPlayerView Object.
-``` 
-private var enxPlayerView: EnxPlayerView? = null
-enxPlayerView = EnxPlayerView(this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true)
-    
-// Attach & render Stream to Player 
-localStream!!.attachRenderer(enxPlayerView)
-
-// Add Player to View
-yourView?.addView(enxPlayerView)
-  ```
-More on Player: https://developer.enablex.io/latest/client-api/android-toolkit/basic-functions/#play-stream
-
-### 4.4 Handle Server Events
-
-EnableX Platform will emit back many events related to the ongoing RTC Session as and when they occur implicitly or explicitly as a result of user interaction. We use Call Back Methods to handle all such events.
-
-``` 
-/* Example of Call Back Methods */
-
-/* Call Back Method: onRoomConnected 
-Handles successful connection to the Virtual Room */ 
-
-void onRoomConnected(EnxRoom enxRoom, JSONObject roomMetaData){
-    /* You may initiate and publish stream */
-}
-
-
-/* Call Back Method: onRoomError
- Error handler when room connection fails */
- 
-void onRoomError(JSONObject jsonObject){
-
-} 
-
- 
-/* Call Back Method: onStreamAdded
- To handle any new stream added to the Virtual Room */
- 
-void onStreamAdded(EnxStream stream){
-    /* Subscribe Remote Stream */
-} 
-
-
-/* Call Back Method: onActiveTalkerList
- To handle any time Active Talker list is updated */
-  
-void onActiveTalkerList(JSONObject jsonObject){
-    /* Handle Stream Players */
-}
-```
-
-## 5 Demo
-
-Visit Demo Zone (https://portal.enablex.io/demo-zone/) to request a Guided Demo or Demo Access to different type of application available there.
-
-You may also try our Video Meeting and Webinar solutions here: https://enablex.io/vcfree
+1. Try a quick Video Call: https://demo.enablex.io/
+2. Try Apps on Demo Zone: https://portal.enablex.io/demo-zone/
+3. Try Meeting & Webinar:  https://www.enablex.io/ucaas/
