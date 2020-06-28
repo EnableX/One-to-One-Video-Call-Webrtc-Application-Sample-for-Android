@@ -14,7 +14,8 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 #### 1.1.1 App Id and App Key 
 
 * Register with EnableX [https://www.enablex.io] 
-* Create your Application
+* Login to the EnableX Portal
+* Create your Application Key
 * Get your App ID and App Key delivered to your Email
 
 
