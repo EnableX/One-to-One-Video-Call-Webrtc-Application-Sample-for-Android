@@ -32,7 +32,7 @@ To help you to try our Android Application quickly, without having to setup Appl
 
 Our Application Server restricts a single Session Duation to 10 minutes, and allows 1 moderator and note more than 3 Participant in a Session.
 
-Once you tried EnableX iOS Sample Application, you may need to setup your own  Application Server and verify your Application to work with your Application Server.  More on this, read Point 2 later in the Document.
+Once you tried EnableX Android Sample Application, you may need to setup your own  Application Server and verify your Application to work with your Application Server.  More on this, read Point 2 later in the Document.
 
 
 #### 1.1.4 Configure Android Client 
@@ -86,8 +86,8 @@ https://developer.enablex.io/latest/server-api/
 
 This Sample Applcation uses EnableX Android Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications. You might need to update your Application with latest version of EnableX Android Toolkit time as and when a new release is avaialble.   
 
-* Documentation: https://developer.enablex.io/latest/client-api/ios-toolkit/
-* Download Toolkit: https://developer.enablex.io/resources/downloads/#ios-toolkit
+* Documentation: https://developer.enablex.io/latest/client-api/android-toolkit/
+* Download Toolkit: https://developer.enablex.io/resources/downloads/#android-toolkit
 
 ## 4 Demo
 
