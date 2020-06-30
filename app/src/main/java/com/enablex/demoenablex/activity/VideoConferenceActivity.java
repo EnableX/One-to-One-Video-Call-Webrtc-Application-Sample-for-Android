@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import enx_rtc_android.Controller.EnxActiveTalkerViewObserver;
 import enx_rtc_android.Controller.EnxPlayerView;
 import enx_rtc_android.Controller.EnxReconnectObserver;
 import enx_rtc_android.Controller.EnxRoom;
@@ -41,7 +44,7 @@ import enx_rtc_android.Controller.EnxStreamObserver;
 
 
 public class VideoConferenceActivity extends AppCompatActivity
-        implements EnxRoomObserver, EnxStreamObserver, View.OnClickListener, EnxReconnectObserver {
+        implements EnxRoomObserver, EnxStreamObserver, View.OnClickListener, EnxReconnectObserver, EnxActiveTalkerViewObserver {
     EnxRtc enxRtc;
     String token;
     String name;
@@ -88,6 +91,7 @@ public class VideoConferenceActivity extends AppCompatActivity
         if (enxRooms != null) {
             enxRooms.publish(localStream);
             enxRooms.setReconnectObserver(this);
+            enxRoom.setActiveTalkerViewObserver(this);
         }
     }
 
@@ -145,8 +149,10 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onActiveTalkerList(JSONObject jsonObject) {
+        // Depricated
+//received when Active talker update happens
         //received when Active talker update happens
-        try {
+      /*  try {
             Map<String, EnxStream> map = enxRooms.getRemoteStreams();
             JSONArray jsonArray = jsonObject.getJSONArray("activeList");
             if (jsonArray.length() == 0) {
@@ -165,7 +171,7 @@ public class VideoConferenceActivity extends AppCompatActivity
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -459,9 +465,24 @@ public class VideoConferenceActivity extends AppCompatActivity
     public JSONObject getReconnectInfo() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("allow_reconnect", true);
-            jsonObject.put("number_of_attempts", 3);
-            jsonObject.put("timeout_interval", 15);
+            jsonObject.put("allow_reconnect",true);
+            jsonObject.put("number_of_attempts",3);
+            jsonObject.put("timeout_interval",15);
+            jsonObject.put("activeviews","view");//view
+
+            JSONObject object = new JSONObject();
+            object.put("audiomute",true);
+            object.put("videomute",true);
+            object.put("bandwidth",true);
+            object.put("screenshot",true);
+            object.put("avatar",true);
+
+            object.put("iconColor", getResources().getColor(R.color.colorPrimary));
+            object.put("iconHeight",30);
+            object.put("iconWidth",30);
+            object.put("avatarHeight",200);
+            object.put("avatarWidth",200);
+            jsonObject.put("playerConfiguration",object);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -558,5 +579,50 @@ public class VideoConferenceActivity extends AppCompatActivity
             progressDialog.dismiss();
         }
         Toast.makeText(this, "Reconnect Success", Toast.LENGTH_SHORT).show();
+    }
+    RecyclerView mRecyclerView;
+
+    boolean touch = false;
+
+    @Override
+    public void onActiveTalkerList(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+        if (recyclerView == null) {
+            participant.removeAllViews();
+            //dummyText.setVisibility(View.VISIBLE);
+
+        } else {
+            //dummyText.setVisibility(View.GONE);
+            participant.removeAllViews();
+            participant.addView(recyclerView);
+
+        }
+
+        if (touch) {
+            return;
+        }
+        if (mRecyclerView != null) {
+            touch = true;
+            mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                @Override
+                public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+                    if (motionEvent.getAction() == 1) {
+                        //handleTouchListner();
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+
+                }
+
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+                }
+            });
+        }
+
     }
 }
