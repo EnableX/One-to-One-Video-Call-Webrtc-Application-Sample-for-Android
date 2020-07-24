@@ -66,6 +66,8 @@ Once you tried EnableX Android Sample Application, you may need to setup your ow
 
 Note: Only one user with Moderator Role allowed to connect to a Virtual Room while trying with EnableX Hosted Service. Your Own Application Server may allow upto 5 Moderators.
   
+ Note:- If you used any emulator/simulator your local stream will not create. It will create only on real device. 
+  
 ## 2 Setup Your Own Application Server
 
 You may need to setup your own Application Server after you tried the Sample Application with EnableX hosted Server. We have differnt variant of Appliciation Server Sample Code, pick one in your preferred language and follow instructions given in respective README.md file.
