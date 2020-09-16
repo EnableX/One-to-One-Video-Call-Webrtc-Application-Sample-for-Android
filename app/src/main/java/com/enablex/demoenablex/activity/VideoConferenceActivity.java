@@ -150,28 +150,7 @@ public class VideoConferenceActivity extends AppCompatActivity
     @Override
     public void onActiveTalkerList(JSONObject jsonObject) {
         // Depricated
-//received when Active talker update happens
         //received when Active talker update happens
-      /*  try {
-            Map<String, EnxStream> map = enxRooms.getRemoteStreams();
-            JSONArray jsonArray = jsonObject.getJSONArray("activeList");
-            if (jsonArray.length() == 0) {
-                View temp = participant.getChildAt(0);
-                participant.removeView(temp);
-                return;
-            } else {
-                JSONObject jsonStreamid = jsonArray.getJSONObject(0);
-                String streamID = jsonStreamid.getString("streamId");
-                EnxStream stream = map.get(streamID);
-                if (enxPlayerViewRemote == null) {
-                    enxPlayerViewRemote = new EnxPlayerView(VideoConferenceActivity.this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, false);
-                    stream.attachRenderer(enxPlayerViewRemote);
-                    participant.addView(enxPlayerViewRemote);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
@@ -405,7 +384,7 @@ public class VideoConferenceActivity extends AppCompatActivity
         gson = new Gson();
         getSupportActionBar().setTitle("QuickApp");
         enxRtc = new EnxRtc(this, this, this);
-        localStream = enxRtc.joinRoom(token, getLocalStreamJsonObject(), getReconnectInfo(), null);
+        localStream = enxRtc.joinRoom(token, getLocalStreamJsonObject(), getReconnectInfo(), new JSONArray());
         enxPlayerView = new EnxPlayerView(this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
         localStream.attachRenderer(enxPlayerView);
         moderator.addView(enxPlayerView);
@@ -438,11 +417,9 @@ public class VideoConferenceActivity extends AppCompatActivity
             jsonObject.put("audio", true);
             jsonObject.put("video", true);
             jsonObject.put("data", false);
-            jsonObject.put("maxVideoBW", 400); //2048
-            jsonObject.put("minVideoBW", 300);
             JSONObject videoSize = new JSONObject();
-            videoSize.put("minWidth", 720);
-            videoSize.put("minHeight", 480);
+            videoSize.put("minWidth", 320);
+            videoSize.put("minHeight", 180);
             videoSize.put("maxWidth", 1280);
             videoSize.put("maxHeight", 720);
             jsonObject.put("videoSize", videoSize);
