@@ -11,7 +11,7 @@ public class WebConstants {
 
     /*The following information required, Only when kTry = true, When you hosted your own webservice remove these fileds*/
 
-    /*Use enablec portal to create your app and get these following credentials*/
+    /*Use enableX portal to create your app and get these following credentials*/
     public static final String kAppId = "App_ID";
     public static final String kAppkey = "App_Key";
 

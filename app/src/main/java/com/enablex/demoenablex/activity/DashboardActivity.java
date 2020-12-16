@@ -3,9 +3,11 @@ package com.enablex.demoenablex.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,8 +26,7 @@ import com.enablex.demoenablex.web_communication.WebResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, WebResponse
-{
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, WebResponse {
     private EditText name;
     private EditText roomId;
     private Button joinRoom;
@@ -35,8 +36,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private String room_Id;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
         getSupportActionBar().setTitle("QuickApp");
@@ -48,52 +48,42 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.createRoom:
 
-                new WebCall(this, this, null, WebConstants.getRoomId, WebConstants.getRoomIdCode, false,true).execute();
+                new WebCall(this, this, null, WebConstants.getRoomId, WebConstants.getRoomIdCode, false).execute();
 
                 break;
             case R.id.joinRoom:
-                room_Id=roomId.getText().toString();
-                if (validations())
-                {
+                room_Id = roomId.getText().toString();
+                if (validations()) {
                     validateRoomIDWebCall();
                 }
                 break;
         }
     }
 
-    private boolean validations()
-    {
-        if (name.getText().toString().isEmpty())
-        {
+    private boolean validations() {
+        if (name.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please Enter name", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if (roomId.getText().toString().isEmpty())
-        {
+        } else if (roomId.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please create Room Id.", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private void validateRoomIDWebCall()
-    {
-        new WebCall(this, this, null, WebConstants.validateRoomId + room_Id, WebConstants.validateRoomIdCode, true,false).execute();
+    private void validateRoomIDWebCall() {
+        new WebCall(this, this, null, WebConstants.validateRoomId + room_Id, WebConstants.validateRoomIdCode, true).execute();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actions, menu);
-        if (menu instanceof MenuBuilder)
-        {
+        if (menu instanceof MenuBuilder) {
             MenuBuilder menuBuilder = (MenuBuilder) menu;
 //            menuBuilder.setOptionalIconsVisible(true);
         }
@@ -101,22 +91,17 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_share:
-                if (!roomId.getText().toString().equalsIgnoreCase(""))
-                {
+                if (!roomId.getText().toString().equalsIgnoreCase("")) {
                     String shareBody = "Hi,\n" + name.getText().toString() + " has invited you to join room with Room Id " + roomId.getText().toString();
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
                     sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                     startActivity(sharingIntent);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(this, "Please create Room first.", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -125,10 +110,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onWebResponse(String response, int callCode)
-    {
-        switch (callCode)
-        {
+    public void onWebResponse(String response, int callCode) {
+        switch (callCode) {
             case WebConstants.getRoomIdCode:
                 onGetRoomIdSuccess(response);
                 break;
@@ -142,159 +125,121 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void onVaidateRoomIdSuccess(String response)
-    {
+    private void onVaidateRoomIdSuccess(String response) {
         Log.e("responsevalidate", response);
-        try
-        {
+        try {
             JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.optString("result").trim().equalsIgnoreCase("40001"))
-            {
+            if (jsonObject.optString("result").trim().equalsIgnoreCase("40001")) {
                 Toast.makeText(this, jsonObject.optString("error"), Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 savePreferences();
                 getRoomTokenWebCall();
             }
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void onGetTokenSuccess(String response)
-    {
+    private void onGetTokenSuccess(String response) {
         Log.e("responseToken", response);
 
-        try
-        {
+        try {
             JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.optString("result").equalsIgnoreCase("0"))
-            {
+            if (jsonObject.optString("result").equalsIgnoreCase("0")) {
                 token = jsonObject.optString("token");
                 Log.e("token", token);
                 Intent intent = new Intent(DashboardActivity.this, VideoConferenceActivity.class);
                 intent.putExtra("token", token);
                 intent.putExtra("name", name.getText().toString());
                 startActivity(intent);
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, jsonObject.optString("error"), Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void onGetRoomIdSuccess(String response)
-    {
+    private void onGetRoomIdSuccess(String response) {
         Log.e("responseDashboard", response);
 
-        try
-        {
+        try {
             JSONObject jsonObject = new JSONObject(response);
             room_Id = jsonObject.optJSONObject("room").optString("room_id");
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
 
             e.printStackTrace();
         }
 
-        runOnUiThread(new Runnable()
-        {
+        runOnUiThread(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 roomId.setText(room_Id);
             }
         });
     }
 
     @Override
-    public void onWebResponseError(String error, int callCode)
-    {
+    public void onWebResponseError(String error, int callCode) {
         Log.e("errorDashboard", error);
     }
 
-    private void setSharedPreference()
-    {
-        if (sharedPreferences != null)
-        {
-            if (!sharedPreferences.getString("name", "").isEmpty())
-            {
+    private void setSharedPreference() {
+        if (sharedPreferences != null) {
+            if (!sharedPreferences.getString("name", "").isEmpty()) {
                 name.setText(sharedPreferences.getString("name", ""));
             }
-            if (!sharedPreferences.getString("room_id", "").isEmpty())
-            {
+            if (!sharedPreferences.getString("room_id", "").isEmpty()) {
                 roomId.setText(sharedPreferences.getString("room_id", ""));
             }
         }
     }
 
-    private void setClickListener()
-    {
+    private void setClickListener() {
         createRoom.setOnClickListener(this);
         joinRoom.setOnClickListener(this);
     }
 
-    private void setView()
-    {
+    private void setView() {
         name = (EditText) findViewById(R.id.name);
         roomId = (EditText) findViewById(R.id.roomId);
         createRoom = (Button) findViewById(R.id.createRoom);
         joinRoom = (Button) findViewById(R.id.joinRoom);
     }
 
-    private JSONObject jsonObjectToSend()
-    {
+    private JSONObject jsonObjectToSend() {
         JSONObject jsonObject = new JSONObject();
-        try
-        {
+        try {
             jsonObject.put("name", "Test Dev Room");
             jsonObject.put("settings", getSettingsObject());
             jsonObject.put("data", getDataObject());
             jsonObject.put("sip", getSIPObject());
             jsonObject.put("owner_ref", "fadaADADAAee");
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
     }
 
-    private JSONObject getSIPObject()
-    {
+    private JSONObject getSIPObject() {
         JSONObject jsonObject = new JSONObject();
         return jsonObject;
     }
 
-    private JSONObject getDataObject()
-    {
+    private JSONObject getDataObject() {
         JSONObject jsonObject = new JSONObject();
-        try
-        {
+        try {
             jsonObject.put("name", name.getText().toString());
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
     }
 
-    private JSONObject getSettingsObject()
-    {
+    private JSONObject getSettingsObject() {
         JSONObject jsonObject = new JSONObject();
-        try
-        {
+        try {
             jsonObject.put("description", "Testing");
             jsonObject.put("scheduled", false);
             jsonObject.put("scheduled_time", "");
@@ -307,37 +252,29 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             jsonObject.put("wait_moderator", false);
             jsonObject.put("adhoc", false);
             jsonObject.put("mode", "group");
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
     }
 
-    private void getRoomTokenWebCall()
-    {
+    private void getRoomTokenWebCall() {
         JSONObject jsonObject = new JSONObject();
-        try
-        {
+        try {
             jsonObject.put("name", name.getText().toString());
             jsonObject.put("role", "participant");
             jsonObject.put("user_ref", "2236");
             jsonObject.put("roomId", room_Id);
-        }
-        catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (!name.getText().toString().isEmpty() && !roomId.getText().toString().isEmpty())
-        {
-            new WebCall(this, this, jsonObject, WebConstants.getTokenURL, WebConstants.getTokenURLCode, false,false).execute();
+        if (!name.getText().toString().isEmpty() && !roomId.getText().toString().isEmpty()) {
+            new WebCall(this, this, jsonObject, WebConstants.getTokenURL, WebConstants.getTokenURLCode, false).execute();
         }
     }
 
 
-    private void savePreferences()
-    {
+    private void savePreferences() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("name", name.getText().toString());
         editor.putString("room_id", room_Id);
