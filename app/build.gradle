@@ -35,6 +35,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    implementation 'com.enxrtc:Enx-Rtc-Android:1.8.2'
+    /*implementation 'com.enxrtc:Enx-Rtc-Android:1.8.2'*/
+    implementation 'org.webrtc:google-webrtc:1.0.25331'
+    implementation('io.socket:socket.io-client:1.0.0') {
+        //Excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
+    implementation (name: 'EnxRtcAndroid-release_1.9.8', ext: 'aar')
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
 }

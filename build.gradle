@@ -20,9 +20,9 @@ allprojects {
         google()
         jcenter()
         maven { url "https://dl.bintray.com/enablex/maven" }
-//        flatDir {
-//            dirs 'src/main/libs'
-//        }
+        flatDir {
+            dirs 'src/main/libs'
+        }
     }
 }
 
