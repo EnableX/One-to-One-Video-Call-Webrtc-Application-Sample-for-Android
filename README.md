@@ -1,99 +1,145 @@
-# 1-to-1 RTC: A Sample Android App with EnableX Android Toolkit
+# One-to-One Video Call using Java and Airtel IQ for Android
 
-This is a Sample Android App demonstrates the use of EnableX (https://www.enablex.io/cpaas/video-api) platform Server APIs and Android Toolkit to build 1-to-1 RTC (Real Time Communication) Application.  It allows developers to ramp up on app development by hosting on their own devices. 
+This client application written in Java demonstrates how you can implement video calling capabilities in your mobile applications using Airtel IQ Toolkit. The application runs on an Android device and utilizes Airtel IQ Android SDK to conduct an RTC session. The sequential tasks performed by the client application to conduct an RTC session are as given below:  
 
-This App creates a virtual Room on the fly  hosted on the Enablex platform using REST calls and uses the Room credentials (i.e. Room Id) to connect to the virtual Room as a mobile client.  The same Room credentials can be shared with others to join the same virtual Room to carry out a RTC session. 
+* Fetch token from the application server. 
 
-> EnableX Developer Center: https://developer.enablex.io/
+* Connect to the room using the received token. 
+
+* Publish media streams in the room. 
+
+* Subscribe to remote media streams in the room. 
+
+* Observe and handle session-related events. 
+
+The sample application demonstrates the following advance features along with basic video call: 
+
+* Mute/Unmute audio. 
+
+* Mute/Unmute video. 
+
+* Switch Camera (front or rear). 
+
+* Switch to Speaker. 
+
+* Disconnect. 
 
 
-## 1. How to get started
+## 1. Getting Started
 
 ### 1.1 Pre-Requisites
 
-#### 1.1.1 App Id and App Key 
+#### 1.1.1 Authorization Credentials
 
-* Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/] 
-* Login to the EnableX Portal
-* Create your Application Key
-* Get your App ID and App Key delivered to your Email
+Follow the steps given below to generate API Credentials required to access Airtel IQ: 
 
+* Create a free account on Airtel IQ  
+* Create your Project 
+* Get the App ID and App Key generated against the Project. 
 
-#### 1.1.2 Sample Android Client 
+#### 1.1.2. Requirement: 
 
-* Clone or download this Repository [https://github.com/EnableX/One-to-One-Video-Call-Webrtc-Application-Sample-for-Android.git] 
+* An Android Device to test the sample application as a simulator/emulator does not support playing video or publishing a local Stream. 
 
+* Install/update Android Studio – 6.0 or higher 
 
-#### 1.1.3 Test Application Server
-
-You need to setup an Application Server to provision Web Service API for your Android Application to communicate enabling Video Session. 
-
-To help you to try our Android Application quickly, without having to setup Applciation Server, this Application is shipped pre-configured to work in a "try" mode with EnableX hosted Application Server i.e. https://demo.enablex.io. 
-
-Our Application Server restricts a single Session Duation to 10 minutes, and allows 1 moderator and note more than 3 Participant in a Session.
-
-Once you tried EnableX Android Sample Application, you may need to setup your own  Application Server and verify your Application to work with your Application Server.  More on this, read Point 2 later in the Document.
-
-
-#### 1.1.4 Configure Android Client 
+#### 1.1.3 Configure Android Client 
 
 * Open the App
 * Go to WebConstants and change the following:
 ``` 
- /* To try the App with Enablex Hosted Service you need to set the kTry = true When you setup your own Application Service, set kTry = false */
+ /* To try the App with Airtel IQ Hosted Service you need to set the kTry = true, when you setup your own Application Service, set kTry = false  */
      
      public  static  final  boolean kTry = true;
      
- /* Your Web Service Host URL. Keet the defined host when kTry = true */
+ /* Your Web Service Host URL.  The following host is applicable when kTry = true */
  
-     String kBaseURL = "https://demo.enablex.io/"
+     String kBaseURL = "https://demo.Airtel IQ.io/"
      
- /* Your Application Credential required to try with EnableX Hosted Service
-     When you setup your own Application Service, remove these */
+ /* Your Application Credentials are required to try with Airtel IQ Hosted Service. You can remove these when you setup your own Application Service */
      
      String kAppId = ""  
      String kAppkey = ""  
  ```
 
+#### 1.1.4 Sample application server 
+
+Once you have downloaded the client code, you need to download the server code to provision video room on Airtel IQ server. Use any of the Repositories listed below to setup your application server: 
+
+* Laravel 
+* PHP 
+* Nodejs 
+* Python 
+* C# 
+
+Clone or download a repository of your choice and configure the server as per the instructions given in the respective README document.  
+
+To directly try the sample code without having to configure an application server, you can also use the Airtel IQ test server as explained in section 2. However, it is recommended to configure your own application server to build a multiparty video calling web app. 
+
+ 
 
 ### 1.2 Test
 
-#### 1.2.1 Open the App
+* Open the App in your device.  
+* A Form to enter the Name and Room ID opens. 
+* Create a Room by clicking on “Create Room” button. 
+* Use the Room ID to enter the Room as a Moderator or a Participant and share the Room ID with others who want to join the RTC session in the Room. 
+* You are now in a video call with others, who have joined the same room. 
 
-* Open the App in your Device. You get a form to enter Credentials i.e. Name & Room Id.
-* You need to create a Room by clicking the "Create Room" button.
-* Once the Room Id is created, you can use it and share with others to connect to the Virtual Room to carry out a RTC Session either as a Moderator or a Participant (Choose applicable Role in the Form).
-
-Note: Only one user with Moderator Role allowed to connect to a Virtual Room while trying with EnableX Hosted Service. Your Own Application Server may allow upto 5 Moderators.
+Note: This sample application creates a virtual room with limited Participants and 1 Moderator for demonstration purposes. 
   
- Note:- If you used any emulator/simulator your local stream will not create. It will create only on real device. 
-  
-## 2 Setup Your Own Application Server
+## 2 Pre-configured Test Server 
 
-You may need to setup your own Application Server after you tried the Sample Application with EnableX hosted Server. We have differnt variant of Appliciation Server Sample Code, pick one in your preferred language and follow instructions given in respective README.md file.
+As mentioned in section 1.1.4 above, you have an option to run your client application on Airtel IQ pre-configured environment instead of setting up your own application server.  
 
-* NodeJS: [https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git]
-* PHP: [https://github.com/EnableX/Group-Video-Call-Conferencing-Sample-Application-in-PHP]
+This allows you to quickly test the performance of Airtel IQ video calls before getting into the development of your application.  
 
-Note the following:
-* You need to use App ID and App Key to run this Service.
-* Your Android Client End Point needs to connect to this Service to create Virtual Room and Create Token to join session.
-* Application Server is created using EnableX Server API, a Rest API Service helps in provisioning, session access and pos-session reporting.  
+As the Airtel IQ test server has been configured for demonstration purpose only, it only allows to: 
 
-To know more about Server API, go to:
-https://developer.enablex.io/latest/server-api/
+* Conduct a single session with a duration lesser than 10 minutes. 
+* Host a multiparty call with less than 3 participants. 
 
+Refer to the Demo App Server for more information.   
 
-## 3 Android Toolkit
+Once you have successfully tested your application on the test server, you can set up your application server as explained in section 1.1.4 above. ## 3 Android Toolkit
 
-This Sample Applcation uses EnableX Android Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications. You might need to update your Application with latest version of EnableX Android Toolkit time as and when a new release is avaialble.   
+## 3 Know more about Client API 
 
-* Documentation: https://developer.enablex.io/latest/client-api/android-toolkit/
-* Download Toolkit: https://developer.enablex.io/resources/downloads/#android-toolkit
+The client APIs are called from the Airtel IQ Android SDK (Enx-Rtc-Android.aar) which runs in the client application. The client APIs are used to communicate with the Airtel IQ video services and monitor the client-side state of the RTC session.  
 
-## 4 Demo
+The client APIs are typically used to: 
 
-EnableX provides hosted Vemo Application of different use-case for you to try out.
+* Connect to the desired room using the token received from the application server 
+* Manage local audio and video 
+* Handle room and stream related events initiated by the user 
 
-1. Try a quick Video Call: https://demo.enablex.io/
-2. Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/
+The client APIs handle four major entities: 
+
+* Airtel IQ Room: It handles room/session related events like connection, local stream publication, and remote stream subscription. 
+* Airtel IQ Stream: It identifies audio/video/data stream published by the user. 
+* Events: It represents the events related to the room and the stream. 
+* Player: It represents the customizable UI element used to render the audio/video stream in the DOM. 
+
+In addition to the features demonstrated in this sample program, the SDK has many helpful APIs available for the developers to utilize like: 
+
+* Text chat 
+* Session recording  
+* File sharing 
+* Screen sharing 
+* Streaming 
+* Annotation 
+* Canvas 
+
+And many more such exciting features. 
+
+Read Android Toolkit Documentation for more details.  
+
+Download Android Toolkit to get the latest version of Android SDK. 
+
+## 4 Support
+
+Airtel IQ provides a library of Documentations, How-to Guides, and Sample Codes to help software developers, interested in embedding RTC in their applications. 
+
+Refer to the Complete Developer’s Guide for more details. 
+
+You may also write to us for additional support at support@Airtel IQ.io. 
