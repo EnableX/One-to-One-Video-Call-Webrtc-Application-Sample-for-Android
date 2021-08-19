@@ -3,25 +3,17 @@
 This client application written in Java demonstrates how you can implement video calling capabilities in your mobile applications using Airtel IQ Toolkit. The application runs on an Android device and utilizes Airtel IQ Android SDK to conduct an RTC session. The sequential tasks performed by the client application to conduct an RTC session are as given below:  
 
 * Fetch token from the application server. 
-
 * Connect to the room using the received token. 
-
 * Publish media streams in the room. 
-
 * Subscribe to remote media streams in the room. 
-
 * Observe and handle session-related events. 
 
 The sample application demonstrates the following advance features along with basic video call: 
 
 * Mute/Unmute audio. 
-
 * Mute/Unmute video. 
-
 * Switch Camera (front or rear). 
-
 * Switch to Speaker. 
-
 * Disconnect. 
 
 
