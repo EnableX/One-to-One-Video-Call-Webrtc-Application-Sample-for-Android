@@ -80,7 +80,7 @@ To directly try the sample code without having to configure an application serve
 
 Note: This sample application creates a virtual room with limited Participants and 1 Moderator for demonstration purposes. 
   
-## 2 Pre-configured Test Server 
+## 2. Pre-configured Test Server 
 
 As mentioned in section 1.1.4 above, you have an option to run your client application on Airtel IQ pre-configured environment instead of setting up your own application server.  
 
@@ -95,7 +95,7 @@ Refer to the Demo App Server for more information.
 
 Once you have successfully tested your application on the test server, you can set up your application server as explained in section 1.1.4 above. ## 3 Android Toolkit
 
-## 3 Know more about Client API 
+## 3. Know more about Client API 
 
 The client APIs are called from the Airtel IQ Android SDK (Enx-Rtc-Android.aar) which runs in the client application. The client APIs are used to communicate with the Airtel IQ video services and monitor the client-side state of the RTC session.  
 
@@ -128,7 +128,7 @@ Read Android Toolkit Documentation for more details.
 
 Download Android Toolkit to get the latest version of Android SDK. 
 
-## 4 Support
+## 4. Support
 
 Airtel IQ provides a library of Documentations, How-to Guides, and Sample Codes to help software developers, interested in embedding RTC in their applications. 
 
