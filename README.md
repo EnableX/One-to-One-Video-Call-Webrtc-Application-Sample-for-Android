@@ -33,7 +33,7 @@ Follow the steps given below to generate API Credentials required to access Airt
 
 * An Android Device to test the sample application as a simulator/emulator does not support playing video or publishing a local Stream. 
 
-* Install/update Android Studio – 6.0 or higher 
+* Install/update [Android Studio](https://developer.android.com/studio) – 6.0 or higher 
 
 #### 1.1.3 Configure Android Client 
 
