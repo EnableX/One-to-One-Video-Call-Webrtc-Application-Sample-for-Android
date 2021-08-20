@@ -134,4 +134,4 @@ Airtel IQ provides a library of Documentations, How-to Guides, and Sample Codes 
 
 Refer to the [Complete Developer’s Guide](https://developer.videoiq.airtel.in/) for more details. 
 
-You may also write to us for additional support at [support@AirtelIQ.io.0](mailto:support@videoiq.airtel.in) 
+You may also write to us for additional support at [support@AirtelIQ.io.](mailto:support@videoiq.airtel.in) 
