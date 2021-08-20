@@ -25,7 +25,7 @@ The sample application demonstrates the following advance features along with ba
 
 Follow the steps given below to generate API Credentials required to access Airtel IQ: 
 
-* Create a free account on Airtel IQ  
+* [Create a free account on Airtel IQ](	https://portal.videoiq.airtel.in/cpaas/trial-sign-up/)  
 * Create your Project 
 * Get the App ID and App Key generated against the Project. 
 
@@ -33,7 +33,7 @@ Follow the steps given below to generate API Credentials required to access Airt
 
 * An Android Device to test the sample application as a simulator/emulator does not support playing video or publishing a local Stream. 
 
-* Install/update [Android Studio](https://developer.android.com/studio) – 6.0 or higher 
+* Install/update [Android Studio](https://developer.android.com/studio/index.html) – 6.0 or higher 
 
 #### 1.1.3 Configure Android Client 
 
@@ -82,7 +82,7 @@ Note: This sample application creates a virtual room with limited Participants a
   
 ## 2. Pre-configured Test Server 
 
-As mentioned in section 1.1.4 above, you have an option to run your client application on Airtel IQ pre-configured environment instead of setting up your own application server.  
+As mentioned in section 1.1.4 above, you have an option to run your client application on [Airtel IQ pre-configured environment](https://try.videoiq.airtel.in) instead of setting up your own application server.  
 
 This allows you to quickly test the performance of Airtel IQ video calls before getting into the development of your application.  
 
@@ -91,7 +91,7 @@ As the Airtel IQ test server has been configured for demonstration purpose only,
 * Conduct a single session with a duration lesser than 10 minutes. 
 * Host a multiparty call with less than 3 participants. 
 
-Refer to the Demo App Server for more information.   
+Refer to the [Demo App Server](https://developer.videoiq.airtel.in/video/sample-code/#demo-app-server) for more information.   
 
 Once you have successfully tested your application on the test server, you can set up your application server as explained in section 1.1.4 above. ## 3 Android Toolkit
 
@@ -124,14 +124,14 @@ In addition to the features demonstrated in this sample program, the SDK has man
 
 And many more such exciting features. 
 
-Read Android Toolkit Documentation for more details.  
+Read [Android Toolkit Documentation](https://videoiq.airtel.in/developer/video-api/client-api/android-toolkit/) for more details.  
 
-Download Android Toolkit to get the latest version of Android SDK. 
+Download [Android Toolkit](https://videoiq.airtel.in/developer/wp-content/uploads/Android_SDK_1.9.4/EnxRtcAndroid-release_1.9.4.zip) to get the latest version of Android SDK. 
 
 ## 4. Support
 
 Airtel IQ provides a library of Documentations, How-to Guides, and Sample Codes to help software developers, interested in embedding RTC in their applications. 
 
-Refer to the Complete Developer’s Guide for more details. 
+Refer to the [Complete Developer’s Guide](https://developer.videoiq.airtel.in/) for more details. 
 
-You may also write to us for additional support at support@Airtel IQ.io. 
+You may also write to us for additional support at [support@AirtelIQ.io.0](mailto:support@videoiq.airtel.in) 
