@@ -93,7 +93,7 @@ This Sample Applcation uses EnableX Android Toolkit to communicate with EnableX 
 
 ## 4. Demo
 
-EnableX provides hosted Demo Application of different use-case for you to try out.
+EnableX provides hosted Demo Application Server of different use-case for you to try out.
 
 1. Try a quick Video Call: https://demo.enablex.io/
 2. Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/
