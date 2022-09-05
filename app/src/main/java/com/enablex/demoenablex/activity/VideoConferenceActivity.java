@@ -185,6 +185,11 @@ public class VideoConferenceActivity extends AppCompatActivity
     }
 
     @Override
+    public void onUserStartTyping(boolean b) {
+
+    }
+
+    @Override
     public void onSwitchedUserRole(JSONObject jsonObject) {
         // received when user switch their role (from moderator  to participant)
     }
@@ -614,7 +619,27 @@ public class VideoConferenceActivity extends AppCompatActivity
     }
 
     @Override
-    public void onActiveTalkerList(RecyclerView recyclerView) {
+    public void onStopAllSharingACK(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onACKStartLiveTranscription(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onACKStopLiveTranscription(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onTranscriptionEvents(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void onActiveTalkerView(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         if (recyclerView == null) {
             participant.removeAllViews();
