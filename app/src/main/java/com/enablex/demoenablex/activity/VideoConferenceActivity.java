@@ -623,20 +623,6 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onACKStartLiveTranscription(JSONObject jsonObject) {
-
-    }
-
-    @Override
-    public void onACKStopLiveTranscription(JSONObject jsonObject) {
-
-    }
-
-    @Override
-    public void onTranscriptionEvents(JSONObject jsonObject) {
-
-    }
 
     @Override
     public void onActiveTalkerView(RecyclerView recyclerView) {
