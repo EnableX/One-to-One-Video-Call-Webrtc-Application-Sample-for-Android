@@ -97,6 +97,10 @@ public class VideoConferenceActivity extends AppCompatActivity
             enxRooms.publish(localStream);
             enxRooms.setReconnectObserver(this);
             enxRoom.setActiveTalkerViewObserver(this);
+            enxPlayerView = new EnxPlayerView(this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
+            localStream.attachRenderer(enxPlayerView);
+            moderator.addView(enxPlayerView);
+        
         }
     }
 
@@ -390,9 +394,6 @@ public class VideoConferenceActivity extends AppCompatActivity
         getSupportActionBar().setTitle("QuickApp");
         enxRtc = new EnxRtc(this, this, this);
         localStream = enxRtc.joinRoom(token, getLocalStreamJsonObject(), getReconnectInfo(), new JSONArray());
-        enxPlayerView = new EnxPlayerView(this, EnxPlayerView.ScalingType.SCALE_ASPECT_BALANCED, true);
-        localStream.attachRenderer(enxPlayerView);
-        moderator.addView(enxPlayerView);
         progressDialog = new ProgressDialog(this);
     }
 
