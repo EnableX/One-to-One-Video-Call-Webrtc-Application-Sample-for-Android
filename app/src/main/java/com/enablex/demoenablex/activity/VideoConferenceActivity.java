@@ -1,14 +1,21 @@
 package com.enablex.demoenablex.activity;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +32,7 @@ import android.widget.Toast;
 
 import com.enablex.demoenablex.R;
 import com.enablex.demoenablex.utilities.OnDragTouchListener;
+import com.enablex.demoenablex.utilities.Utility;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -65,27 +73,51 @@ public class VideoConferenceActivity extends AppCompatActivity
     EnxPlayerView enxPlayerViewRemote;
     ProgressDialog progressDialog;
     int PERMISSION_ALL = 1;
-
+    private static final int PERMISSION_REQUEST_CODE = 200;
     RecyclerView mRecyclerView;
     boolean touch = false;
-    String[] PERMISSIONS = {
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.RECORD_AUDIO
-    };
-
+    String[] PERMISSIONS ;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    private boolean isRequestedForSettingPage;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_conference);
+        this.isRequestedForSettingPage = false;
+
+        sharedPreferences = getSharedPreferences("enablex", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         getPreviousIntent();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!hasPermissions(this, PERMISSIONS)) {
-                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-            } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PERMISSIONS = new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE};
+        } else {
+            PERMISSIONS = new String[]{Manifest.permission.BLUETOOTH, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE};
+        }
+
+        boolean status = sharedPreferences.getBoolean("isAppFirst", false);
+        if (!status) {
+            requestPermission();
+        } else {
+            if(!new Utility().hasPermissions(this,PERMISSIONS )) {//new String[]{Manifest.permission.BLUETOOTH, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}
+                showPermissionDialog(true);
+            }else{
                 initialize();
             }
+        }
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(isRequestedForSettingPage) {
+            isRequestedForSettingPage = false;
+            initialize();
+        }
+    }
+    private void requestPermission() {
+        if(!new Utility().hasPermissions(this, PERMISSIONS)){//new String[]{Manifest.permission.BLUETOOTH, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}
+            showPermissionDialog(false);
         }
     }
 
@@ -329,20 +361,82 @@ public class VideoConferenceActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[1] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[2] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
-                    initialize();
-                } else {
-                    Toast.makeText(this, "Please enable permissions to further proceed.", Toast.LENGTH_SHORT).show();
+    private void showPermissionDialog(boolean isRedirectToSetting){
+        try{
+            AlertDialog.Builder builder = new AlertDialog.Builder(VideoConferenceActivity.this);
+            builder.setTitle("Permission Needed");
+            builder.setCancelable(false);
+            String textPositiveButton = null;
+            String title = null;
+            if(isRedirectToSetting)
+                textPositiveButton = "Open Setting";
+            else
+                textPositiveButton = "Continue";
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.S){
+                if(!isRedirectToSetting){
+                    title = "Allow Enablex to access File Storage and BlueTooth of your device. Please tap on Continue to proceed further and allow permission.";
                 }
+                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    title = "Allow Enablex to access File Storage and BlueTooth of your device. Tap Open Setting->Permissions, and turn File Storage and BlueTooth on.";
+                }
+                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED){
+                    title = "Allow Enablex to access BlueTooth of your device. Tap Open Setting->Permissions, and turn BlueTooth on.";
+                }
+                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    title = "Allow Enablex to access File Storage of your device. Tap Open Setting->Permissions, and turn File Storage on.";
+                }
+            }else{
+                if(!isRedirectToSetting){
+                    title = "Allow Enablex to access File Storage of your device.Please tap on Continue to proceed further and allow permission.";
+                }
+                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    title = "Allow Enablex to access File Storage of your device. Tap Open Setting->Permissions, and turn File Storage on.";
+                }
+            }
+
+            builder.setMessage(title);
+            builder.setPositiveButton(textPositiveButton, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if(!isRedirectToSetting)
+                        ActivityCompat.requestPermissions(VideoConferenceActivity.this, PERMISSIONS, PERMISSION_REQUEST_CODE);
+                    else
+                    {
+                        isRequestedForSettingPage = true;
+                        Utility.goToPermissionPage(VideoConferenceActivity.this);
+
+                    }
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    initialize();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
+    }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    editor.putBoolean("isAppFirst", true);
+                    editor.commit();
+                    initialize();
+
+                }
+
                 break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

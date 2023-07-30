@@ -1,12 +1,20 @@
 package com.enablex.demoenablex.activity;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.app.ActivityCompat;
 
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +27,7 @@ import android.widget.Toast;
 
 import com.enablex.demoenablex.ApplicationController;
 import com.enablex.demoenablex.R;
+import com.enablex.demoenablex.utilities.Utility;
 import com.enablex.demoenablex.web_communication.WebCall;
 import com.enablex.demoenablex.web_communication.WebConstants;
 import com.enablex.demoenablex.web_communication.WebResponse;
@@ -34,6 +43,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private String token;
     private SharedPreferences sharedPreferences;
     private String room_Id;
+    String[] PERMISSIONS = {
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.RECORD_AUDIO
+    };
+    int PERMISSION_ALL = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +57,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.dashboard);
         getSupportActionBar().setTitle("QuickApp");
         sharedPreferences = ApplicationController.getSharedPrefs();
+
         setView();
         setClickListener();
         getSupportActionBar().setTitle("Quick App");
@@ -57,9 +74,17 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.joinRoom:
                 room_Id = roomId.getText().toString();
-                if (validations()) {
-                    validateRoomIDWebCall();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!new Utility().hasPermissions(this, PERMISSIONS)) {
+                        ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+                    } else {
+                        if (validations()) {
+                            validateRoomIDWebCall();
+                        }
+                    }
                 }
+
                 break;
         }
     }
@@ -270,6 +295,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
         if (!name.getText().toString().isEmpty() && !roomId.getText().toString().isEmpty()) {
             new WebCall(this, this, jsonObject, WebConstants.getTokenURL, WebConstants.getTokenURLCode, false).execute();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[2] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
+                    if (validations()) {
+                        validateRoomIDWebCall();
+                    }
+                } else {
+                    Toast.makeText(this, "Please enable permissions to further proceed.", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
