@@ -118,6 +118,8 @@ public class VideoConferenceActivity extends AppCompatActivity
     private void requestPermission() {
         if(!new Utility().hasPermissions(this, PERMISSIONS)){//new String[]{Manifest.permission.BLUETOOTH, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}
             showPermissionDialog(false);
+        }else{
+            initialize();
         }
     }
 
