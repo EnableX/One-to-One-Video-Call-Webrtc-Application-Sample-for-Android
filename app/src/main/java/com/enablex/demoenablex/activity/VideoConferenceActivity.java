@@ -762,4 +762,9 @@ public class VideoConferenceActivity extends AppCompatActivity
         }
 
     }
+
+    @Override
+    public void onActiveTalkerView(RecyclerView recyclerView,EnxRoom enxRoom){
+
+    }
 }
