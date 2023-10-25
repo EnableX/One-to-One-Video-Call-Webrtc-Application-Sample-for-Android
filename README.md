@@ -1,10 +1,10 @@
-# 1-to-1 RTC: A Sample Android App with EnableX Android Toolkit
+# 1- to-1 RTC: Android App with EnableX Android Toolkit
 
-This is a Sample Android App that demonstrates the use of EnableX platform Server APIs (https://www.enablex.io/developer/video-api/server-api) and Android Toolkit (https://www.enablex.io/developer/video-api/client-api/android-toolkit) to build 1-to-1 RTC (Real Time Communication) Application.  It allows developers to ramp up on app development by hosting on their own devices. 
+Explore a Sample Android App Demonstrating EnableX Platform Video APIs and Android Toolkit for 1-to-1 Real-Time Communication (RTC)
 
-This App creates a virtual Room on the fly  hosted on the Enablex platform using REST calls and uses the Room credentials (i.e. Room Id) to connect to the virtual Room as a mobile client.  The same Room credentials can be shared with others to join the same virtual Room to carry out an RTC session. 
+Uncover the power of the EnableX platform's Video APIs (https://www.enablex.io/developer/video-api/server-api) and Android Toolkit (https://www.enablex.io/developer/video-api/client-api/android-toolkit) through this illustrative Android application. This app equips developers with the tools to fast-track their app development journey, allowing them to host the application on their own Android devices.
 
-> EnableX Developer Center: https://developer.enablex.io/
+With this app, you can effortlessly create virtual rooms on-the-fly within the EnableX platform using REST calls. It harnesses Room credentials, such as Room ID, to seamlessly connect as a mobile client to the virtual Room. These Room credentials can also be conveniently shared with others, enabling collaborative real-time communication (RTC) sessions in the same virtual Room.
 
 
 ## 1. How to get started
