@@ -226,17 +226,11 @@ public class VideoConferenceActivity extends AppCompatActivity
     public void onUserStartTyping(boolean b) {
 
     }
+  @Override
+    public void onAvailable(int count) {
 
-    @Override
-    public void onSwitchedUserRole(JSONObject jsonObject) {
-        // received when user switch their role (from moderator  to participant)
     }
-
-    @Override
-    public void onUserRoleChanged(JSONObject jsonObject) {
-        // received when user role changed successfully
-    }
-
+   
     @Override
     public void onConferencessExtended(JSONObject jsonObject) {
 
