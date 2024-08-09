@@ -226,10 +226,7 @@ public class VideoConferenceActivity extends AppCompatActivity
     public void onUserStartTyping(boolean b) {
 
     }
-  @Override
-    public void onAvailable(int count) {
 
-    }
    
     @Override
     public void onConferencessExtended(JSONObject jsonObject) {
@@ -759,6 +756,11 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onActiveTalkerView(RecyclerView recyclerView,EnxRoom enxRoom){
+
+    }
+
+    @Override
+    public void onAvailable(Integer integer) {
 
     }
 }
