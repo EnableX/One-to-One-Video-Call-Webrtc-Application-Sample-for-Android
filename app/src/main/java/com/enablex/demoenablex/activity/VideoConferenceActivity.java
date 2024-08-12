@@ -227,16 +227,7 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onSwitchedUserRole(JSONObject jsonObject) {
-        // received when user switch their role (from moderator  to participant)
-    }
-
-    @Override
-    public void onUserRoleChanged(JSONObject jsonObject) {
-        // received when user role changed successfully
-    }
-
+   
     @Override
     public void onConferencessExtended(JSONObject jsonObject) {
 
@@ -765,6 +756,11 @@ public class VideoConferenceActivity extends AppCompatActivity
 
     @Override
     public void onActiveTalkerView(RecyclerView recyclerView,EnxRoom enxRoom){
+
+    }
+
+    @Override
+    public void onAvailable(Integer integer) {
 
     }
 }
