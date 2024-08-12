@@ -4,6 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
+
         <DropdownSelection timestamp="2024-08-09T10:29:59.537290Z">
           <Target type="DEFAULT_BOOT">
             <handle>
