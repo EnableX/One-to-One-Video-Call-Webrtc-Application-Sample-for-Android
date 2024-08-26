@@ -45,8 +45,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private String room_Id;
     String[] PERMISSIONS = {
             android.Manifest.permission.CAMERA,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.RECORD_AUDIO
     };
     int PERMISSION_ALL = 1;
@@ -304,8 +302,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[2] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
+                        ) {
                     if (validations()) {
                         validateRoomIDWebCall();
                     }

@@ -74,6 +74,7 @@ public class VideoConferenceActivity extends AppCompatActivity
     ProgressDialog progressDialog;
     int PERMISSION_ALL = 1;
     private static final int PERMISSION_REQUEST_CODE = 200;
+    private static final int REQUEST_CODE_MEDIA_PERMISSION = 201;
     RecyclerView mRecyclerView;
     boolean touch = false;
     String[] PERMISSIONS ;
@@ -91,9 +92,9 @@ public class VideoConferenceActivity extends AppCompatActivity
 
         getPreviousIntent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PERMISSIONS = new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE};
+            PERMISSIONS = new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH};
         } else {
-            PERMISSIONS = new String[]{Manifest.permission.BLUETOOTH, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE};
+            PERMISSIONS = new String[]{Manifest.permission.BLUETOOTH};
         }
 
         boolean status = sharedPreferences.getBoolean("isAppFirst", false);
@@ -105,6 +106,25 @@ public class VideoConferenceActivity extends AppCompatActivity
             }else{
                 initialize();
             }
+        }
+    }
+
+    //Media permission  if required then use it
+    private void checkAndRequestMediaPermissions() {
+        String[] mediaPermissions;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mediaPermissions = new String[]{
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.READ_MEDIA_AUDIO
+            };
+        } else {
+            mediaPermissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        if ( !new Utility().hasPermissions(this,mediaPermissions)) {
+            ActivityCompat.requestPermissions(this, mediaPermissions, REQUEST_CODE_MEDIA_PERMISSION);
         }
     }
     @Override
@@ -369,23 +389,18 @@ public class VideoConferenceActivity extends AppCompatActivity
                 if(!isRedirectToSetting){
                     title = "Allow Enablex to access File Storage and BlueTooth of your device. Please tap on Continue to proceed further and allow permission.";
                 }
-                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    title = "Allow Enablex to access File Storage and BlueTooth of your device. Tap Open Setting->Permissions, and turn File Storage and BlueTooth on.";
+                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED){
+                    title = "Allow Enablex to access  BlueTooth of your device. Tap Open Setting->Permissions, and turn  BlueTooth on.";
                 }
                 else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED){
                     title = "Allow Enablex to access BlueTooth of your device. Tap Open Setting->Permissions, and turn BlueTooth on.";
                 }
-                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    title = "Allow Enablex to access File Storage of your device. Tap Open Setting->Permissions, and turn File Storage on.";
-                }
+
             }else{
                 if(!isRedirectToSetting){
                     title = "Allow Enablex to access File Storage of your device.Please tap on Continue to proceed further and allow permission.";
                 }
-                else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    title = "Allow Enablex to access File Storage of your device. Tap Open Setting->Permissions, and turn File Storage on.";
-                }
+
             }
 
             builder.setMessage(title);
@@ -427,6 +442,15 @@ public class VideoConferenceActivity extends AppCompatActivity
 
                 }
 
+                break;
+                //if use media permission
+            case REQUEST_CODE_MEDIA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Media permissions granted
+
+                } else {
+                    // Handle permission denial for media
+                }
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
