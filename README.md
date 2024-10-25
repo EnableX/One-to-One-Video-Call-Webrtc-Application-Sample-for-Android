@@ -13,7 +13,7 @@ With this app, you can effortlessly create virtual rooms on-the-fly within the E
 
 #### 1.1.1 App Id and App Key 
 
-* Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/] 
+* Register with EnableX [https://www.enablex.io/free-trial/] 
 * Login to the EnableX Portal
 * Create your Application Key
 * Get your App ID and App Key delivered to your email
@@ -81,7 +81,7 @@ Note the following:
 * Application Server is created using EnableX Server API, a Rest API Service helps in provisioning, session access and post-session reporting.  
 
 To know more about Server API, go to:
-https://developer.enablex.io/docs/references/apis/video-api/index/
+https://developer.enablex.io/docs/guides/video-guide/sample-codes/video-calling-app/#demo-application-server
 
 
 ## 3. Android Toolkit
@@ -96,4 +96,4 @@ This Sample Applcation uses EnableX Android Toolkit to communicate with EnableX 
 EnableX provides hosted Demo Application Server of different use-case for you to try out.
 
 1. Try a quick Video Call: https://demo.enablex.io/
-2. Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/
+2. Sign up for a free trial https://www.enablex.io/free-trial/
