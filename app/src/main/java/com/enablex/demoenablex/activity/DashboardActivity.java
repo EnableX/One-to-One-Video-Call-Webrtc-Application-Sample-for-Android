@@ -64,13 +64,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.createRoom:
+        int id=view.getId();
+
+            if(id== R.id.createRoom) {
 
                 new WebCall(this, this, null, WebConstants.getRoomId, WebConstants.getRoomIdCode, false).execute();
 
-                break;
-            case R.id.joinRoom:
+            }
+            else if(id== R.id.joinRoom){
                 room_Id = roomId.getText().toString();
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -83,7 +84,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     }
                 }
 
-                break;
+
         }
     }
 
@@ -115,8 +116,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_share:
+        int id= item.getItemId();
+            if(id== R.id.action_share){
                 if (!roomId.getText().toString().equalsIgnoreCase("")) {
                     String shareBody = "Hi,\n" + name.getText().toString() + " has invited you to join room with Room Id " + roomId.getText().toString();
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -127,7 +128,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 } else {
                     Toast.makeText(this, "Please create Room first.", Toast.LENGTH_SHORT).show();
                 }
-                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
