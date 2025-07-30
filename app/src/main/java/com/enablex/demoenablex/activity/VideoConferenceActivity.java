@@ -243,11 +243,26 @@ public class VideoConferenceActivity extends AppCompatActivity
     }
 
     @Override
-    public void onUserStartTyping(boolean b) {
+    public void onUserStartTyping(JSONObject b) {
 
     }
 
-   
+    @Override
+    public void onACKUpdateMessage(JSONObject jsonObject){
+
+    }
+    @Override
+    public void  onMessageUpdate(JSONObject jsonObject){
+
+    }
+    @Override
+    public void  onACKDeleteMessage(JSONObject jsonObject){
+
+    }
+    @Override
+    public void onMessageDelete(JSONObject jsonObject){}
+    @Override
+    public void onACKSendMessage(JSONObject jsonObject){}
     @Override
     public void onConferencessExtended(JSONObject jsonObject) {
 
